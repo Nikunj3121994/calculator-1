@@ -1,0 +1,70 @@
+* {
+  //border: 1px red dashed;
+}
+
+body {
+ background: white;
+}
+
+
+.container {
+  width: 400px;
+  background: orange;
+  position: relative;
+  border-radius: 20px;
+  margin-top: 50px;
+}
+
+#display {
+  height: 70px;
+  width: 300px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+  font-size: 20px;
+  background: gray;
+  margin: 0 auto;
+  margin-top: 50px;
+  text-align: right;
+}
+
+button {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  margin-bottom: 20px;
+  font-size: 30px;
+  border: 0px;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+#buttons {
+  margin: 20px;
+  width: 350px;
+}
+
+#top-buttons {
+  //text-align: center;
+}
+
+#zero-button {
+  width: 145px;
+}
+
+#equals-button {
+  height: 148px;
+  position: absolute;
+  right: 33px ;
+}
+
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+}
+
+p {
+  font-size: 1.5em;
+}
