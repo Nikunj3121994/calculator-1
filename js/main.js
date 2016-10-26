@@ -5,10 +5,12 @@
 // User Story: I can keep chaining mathematical operations together until I hit the equal button, and the calculator will tell me the correct output.
 
 
+let calculation = [];
+let currentString = '';
+
 $(document).ready(function(){
 
-    var currentString = '';
-    // var accumulator = '';
+    // let accumulator = '';
 
     // function clearAccumulator() {
     //     // clear whole memory
@@ -16,28 +18,43 @@ $(document).ready(function(){
     // }
 
     function clearAll() {
-        // clear everything
         currentString = '';
+        calculation = [];
         console.log(currentString);
         $("#currentEntry-display").text('0');
+        $("#accumulator-display").text('0')
     }
 
     function clearEntry() {
-        // clear just what's in the currentString...char by char
-        currentString = currentString.slice(0, -1);
+        // clear just what's in the currentString...char by char, then start removing elements from the calculation array one by one
         if (currentString === '') {
+            calculation.pop()
             $("#currentEntry-display").text('0');
+            $("#accumulator-display").text(calculation.join(''))
         } else {
+            currentString = currentString.slice(0, -1);
             console.log(currentString);
-            $("#currentEntry-display").text(currentString);
+            $("#currentEntry-display").text(currentString || '0');
+            $("#accumulator-display").text(calculation.join(''))
         }
     }
 
     function equals() {
-        answer = eval(currentString);
+        if (currentString) {
+            calculation.push(currentString)
+            currentString = ''
+        }
+        // account for last element in calculation being a maths operator; remove it.
+        if (calculation[calculation.length -1] === '+' ||
+            calculation[calculation.length -1] === '-' ||
+            calculation[calculation.length -1] === '*' ||
+            calculation[calculation.length -1] === '/' )  {
+            calculation.pop()
+        }
+        let answer = eval(calculation.join(''))
         console.log(answer);
         $("#currentEntry-display").text(answer);
-        currentString = '';
+        $("#accumulator-display").text(calculation.join(''))
     }
 
     $('button').on('click', function(e){
@@ -49,20 +66,51 @@ $(document).ready(function(){
             clearAll();
         } else if (target === 'equals') {
             equals();
+        } else if (target === '*' || target === '/' || target === '+' || target === '-' ) {
+            if (currentString) {
+                calculation.push(currentString);
+                currentString = ''
+                $("#currentEntry-display").text(calculation.join(''));
+                $("#accumulator-display").text(calculation.join(''))
+            }
+            console.log('target is maths operator');
+            // if target operator is the same as the last entry to the calc
+            if ( calculation[calculation.length -1] === '+' ||
+                calculation[calculation.length -1] === '-' ||
+                calculation[calculation.length -1] === '*' ||
+                calculation[calculation.length -1] === '/' )  {
+                console.log('last entry to calculation is a maths operator');
+                calculation[calculation.length -1] = target
+                console.log(calculation);
+                $("#currentEntry-display").text(calculation.join(''));
+                $("#accumulator-display").text(calculation.join(''))
+            } else {
+                if (currentString) {
+                    calculation.push(currentString)
+                    currentString = ''
+                    $("#currentEntry-display").text(calculation.join(''));
+                    $("#accumulator-display").text(calculation.join(''))
+                }
+                calculation.push(target)
+                console.log(calculation);
+                $("#currentEntry-display").text(calculation.join(''));
+                $("#accumulator-display").text(calculation.join(''))
+            }
+        // if already a dot in a number, don't add another
+        } else if (target === '.' && currentString.includes('.')) {
+            console.log('already got a dot');
         } else {
             currentString += target;
             console.log(currentString);
-            $("#currentEntry-display").text(currentString);
+            $("#currentEntry-display").text(calculation.join('') + currentString);
+            $("#accumulator-display").text(calculation.join(''))
         }
-
-
-
     }); // end of $('button').on('click', function(e){
 
 
-    // TODO: only allow a single dot char per number string. might be complicated.
-    // TODO: prevent multiple operator entries in a row, e.g. ++, or ***
-    // TODO: implement an accumulator row at top of display
+    // TODO: implement a max length to strings put into the calc window; they currently overflow to the right
+    // TODO: create a isOperator() function to get rid of lines like:  calculation[calculation.length -1] === '-' ||
+    // TODO: create an updateView() function to avoid all the jquery repetition.
     // TODO: implement other features like this one: https://codepen.io/FreeCodeCamp/full/rLJZrA/
 
 
