@@ -27,15 +27,26 @@ $(document).ready(function(){
 
     function clearEntry() {
         // clear just what's in the currentString...char by char, then start removing elements from the calculation array one by one
-        if (currentString === '') {
-            calculation.pop()
-            $("#currentEntry-display").text('0');
-            $("#accumulator-display").text(calculation.join(''))
-        } else {
+        if (currentString) {
             currentString = currentString.slice(0, -1);
             console.log(currentString);
-            $("#currentEntry-display").text(currentString || '0');
+            console.log(calculation);
+            $("#currentEntry-display").text(currentString ? currentString : "ohai");
             $("#accumulator-display").text(calculation.join(''))
+            if (!currentString) {
+                $("#currentEntry-display").text('0');
+            }
+        } else if (calculation.length > 0) {
+            calculation.pop()
+            console.log(currentString);
+            console.log(calculation);
+            $("#currentEntry-display").text('0');
+            $("#accumulator-display").text(calculation.length > 0 ? calculation.join('') : '0')
+        } else {
+            console.log(currentString);
+            console.log(calculation);
+            $("#currentEntry-display").text('0');
+            $("#accumulator-display").text('0')
         }
     }
 
@@ -110,6 +121,7 @@ $(document).ready(function(){
 
     // TODO: implement a max length to strings put into the calc window; they currently overflow to the right
     // TODO: create a isOperator() function to get rid of lines like:  calculation[calculation.length -1] === '-' ||
+    // TODO: think clearEntry logic could do with some work to simplify it... think there's some dodgey logic there.
     // TODO: create an updateView() function to avoid all the jquery repetition.
     // TODO: implement other features like this one: https://codepen.io/FreeCodeCamp/full/rLJZrA/
 
