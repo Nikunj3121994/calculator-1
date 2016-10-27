@@ -119,6 +119,7 @@ $(document).ready(function(){
     }); // end of $('button').on('click', function(e){
 
 
+    // FIXME: after equals is pressed, you should be able to do a plus x and carry on, or if a number is pressed it starts a fresh calc.
     // TODO: implement a max length to strings put into the calc window; they currently overflow to the right
     // TODO: create a isOperator() function to get rid of lines like:  calculation[calculation.length -1] === '-' ||
     // TODO: think clearEntry logic could do with some work to simplify it... think there's some dodgey logic there.
